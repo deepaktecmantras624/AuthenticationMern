@@ -69,6 +69,23 @@ const userData = async (req, res) => {
   }
 };
 
+// Get the User by Id
+const userDataById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error getting user data by ID:', error);
+    res.status(500).json({ error: 'Unable to get the user data' });
+  }
+};
+
 // Delete the User
 const deleteUser = async (req, res) => {
   try {
@@ -85,12 +102,12 @@ const deleteUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
-    const { name, password } = req.body;
-    const hashedP = await bcrypt.hash(password, 10);
+    const { name } = req.body;
+    // const hashedP = await bcrypt.hash(password, 10);
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, password: hashedP },
+      { name },
       { new: true }
     );
 
@@ -112,4 +129,5 @@ module.exports = {
   userData,
   deleteUser,
   updateUser,
+  userDataById
 };

@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+// import EditForm from "./EditForm";
 
 const Dashboard = () => {
   const [data, setData] = useState([]);
+ 
 
 
   // Getting the User data
@@ -38,24 +41,14 @@ const Dashboard = () => {
       });
   };
 
-  
-  const updateUser = (id, newData) => {
-    axios
-      .put(`http://localhost:3001/api/users/${id}`, newData)
-      .then((res) => {
-        console.log("Data Successfully Updated", res.data);
-        fetchUser();
-      })
-      .catch((err) => {
-        console.log("User Update failed");
-      });
-  };
+
+
 
   useEffect(() => {
     fetchUser();
   }, []);
 
-  console.log("Data:", data);
+  
 
   return (
     <>
@@ -70,7 +63,7 @@ const Dashboard = () => {
 
         <div className="justify-center items-center h-screen">
           <div className="bg-gray-200 p-8 rounded-lg">
-            <table className="table-auto w-full">
+            <table className="table-auto w-full md:table-fixed">
               <thead>
                 <tr>
                   <th className="text-right">S.No.</th>
@@ -89,9 +82,9 @@ const Dashboard = () => {
                         <td className="text-right">{user.email}</td>
                         <td className="text-right">
                           <div className="gap-3">
-                            <button className="p-2 border btn btn-warning mr-2 hover:rounded-lg bg-amber-400  text-black">
+                            <Link to={`/update/${user._id}`} className="p-2 border mr-2 hover:rounded-lg bg-amber-400  text-black">
                               Edit
-                            </button>
+                            </Link>
 
                             <button
                               onClick={() => deleteUser(user._id)}
