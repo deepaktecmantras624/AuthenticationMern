@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 const Dashboard = () => {
   const [data, setData] = useState([]);
 
+
+  // Getting the User data
   const fetchUser = () => {
     axios
       .get("http://localhost:3001/api/users/register")
@@ -19,6 +21,8 @@ const Dashboard = () => {
       });
   };
 
+
+  // Deleting the User
   const deleteUser = (id) => {
     axios
       .delete(`http://localhost:3001/api/users/${id}`)
@@ -34,17 +38,18 @@ const Dashboard = () => {
       });
   };
 
-  // const updateUser = (id, newData) => {
-  //   axios
-  //     .put(`http://localhost:3001/api/users/${id}`, newData)
-  //     .then((res) => {
-  //       console.log("Data Successfully Updated", res.data);
-  //       fetchUser();
-  //     })
-  //     .catch((err) => {
-  //       console.log("User Update failed");
-  //     });
-  // };
+  
+  const updateUser = (id, newData) => {
+    axios
+      .put(`http://localhost:3001/api/users/${id}`, newData)
+      .then((res) => {
+        console.log("Data Successfully Updated", res.data);
+        fetchUser();
+      })
+      .catch((err) => {
+        console.log("User Update failed");
+      });
+  };
 
   useEffect(() => {
     fetchUser();

@@ -86,10 +86,11 @@ const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
     const { name, password } = req.body;
+    const hashedP = await bcrypt.hash(password, 10);
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, password },
+      { name, password: hashedP },
       { new: true }
     );
 
@@ -110,5 +111,5 @@ module.exports = {
   loginUser,
   userData,
   deleteUser,
-  updateUser
+  updateUser,
 };
