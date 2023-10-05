@@ -16,7 +16,7 @@ const Register = () => {
   }, []);
 
   const fetchUser = () => {
-    axios.get("http://localhost:3001/register").then((res) => {
+    axios.get("http://localhost:3001/api/users/register").then((res) => {
       console.log(res.data);
     });
   };
@@ -24,14 +24,14 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     axios
-      .post("http://localhost:3001/register", { name, email, password })
+      .post("http://localhost:3001/api/users/register", { name, email, password })
       .then(() => {
         alert("Registration Successful")
         // setEmail("");
         // setName("");
         // setPassword("");
         fetchUser()
-        navigate("/login")
+        navigate("/")
       })
       .catch((err)=>{
         console.log("Unable to Register User")
@@ -100,7 +100,7 @@ const Register = () => {
           >
             Register
           </button>
-          <p>If you're already a user <Link className="hover:bg-[blue] hover:text-[white] border p-3 bg-[grey.500] rounded-lg" to="/login">Login</Link></p>
+          <p>If you're already a user <Link className="hover:bg-[blue] hover:text-[white] border p-3 bg-[grey.500] rounded-lg" to="/">Login</Link></p>
         </form>
       </div>
     </div>

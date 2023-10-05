@@ -1,29 +1,56 @@
 import React from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const navigate=useNavigate()
-  const isLogin=!!localStorage.getItem("token")
+  const navigate = useNavigate();
+  const isLogin = !!localStorage.getItem("token");
 
-  const handleSignout=()=>{
-    localStorage.removeItem("token")
-    navigate("/login")
-  }
+  const handleSignout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
   return (
-    <div style={{ width: "100%", height: "50px", textAlign:"center", wordSpacing:"5px", background: "orange"}}>
-      <Link className=" bg-orange-500 hover:bg-[white] hover:text-[black] text-[white]"  to="/">Dashboard</Link>
+    <div className="w-[100%] h-[50px] bg-slate-900 text-center">
+      <div className="justify-items-center">
+        {isLogin ? (
+          <>
+            <Link
+              className=" hover:bg-[grey] hover:text-[black] text-[white] text-2xl px-2"
+              to="/dashboard"
+            >
+              Dashboard
+            </Link>
+            {/* <Link
+              className="hover:bg-[grey] hover:text-[black]  text-[white] mx-6 text-2xl px-2"
+              to="/addfile"
+            >
+              Add File
+            </Link> */}
+            <button
+              onClick={handleSignout}
+              className="btn p-4 gap-7 text-white"
+            >
+              SignOut
+            </button>
+          </>
+        ) : (
+          <>
+            <Link
+              className="hover:bg-[grey] hover:text-[black] text-[white] mx-6 text-2xl px-2"
+              to="/register"
+            >
+              Register
+            </Link>
+            <Link
+              className="hover:bg-[grey] hover:text-[black] text-[white] mx-6 text-2xl px-2"
+              to="/"
+            >
+              Login
+            </Link>
+          </>
+        )}
+      </div>
 
-      {isLogin ? (
-        <>  
-        <Link className=" bg-orange-500 hover:bg-[white] hover:text-[black] text-[white] mx-6 text-[2xl]" to="/addfile">Add File</Link>
-        <button onClick={handleSignout} className="btn p-4 gap-7 text-white">SignOut</button>
-        </>
-      ): (
-        <>
-      <Link className=" bg-orange-500 hover:bg-[white] hover:text-[black] text-[white] mx-6" to="/register">Register</Link>
-      <Link className=" bg-orange-500 hover:bg-[white] hover:text-[black] text-[white] mx-6" to="/login">Login</Link>
-        </>
-      )}
       {/* <Link style={{color:"white", marginLeft:"50px"}} to="/addfile">Add File</Link> */}
     </div>
   );

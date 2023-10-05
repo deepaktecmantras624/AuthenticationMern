@@ -12,7 +12,7 @@ const Login = () => {
   },[])
 
   const fetchUser = () => {
-    axios.get("http://localhost:3001/register").then((res) => {
+    axios.get("http://localhost:3001/api/users/register").then((res) => {
       console.log(res.data);
     });
   };
@@ -20,15 +20,19 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3001/login", {
+      const response = await axios.post("http://localhost:3001/api/users/login", {
         email,
         password,
       });
-      const token = response.data.token;
+      
+      const token = response.data.token
+      console.log(`Token:${token}`)
+      
       alert("Login successful");
       fetchUser()
-      navigate("/addfile");
+      navigate("/dashboard");
       localStorage.setItem("token", token);
+      
     } catch (error) {
       console.log("Login Error");
     }
