@@ -11,15 +11,15 @@ const Register = () => {
   const navigate=useNavigate()
 
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   fetchUser();
+  // }, []);
 
-  const fetchUser = () => {
-    axios.get("http://localhost:3001/api/users/register").then((res) => {
-      console.log(res.data);
-    });
-  };
+  // const fetchUser = () => {
+  //   axios.get("http://localhost:3001/api/users").then((res) => {
+  //     console.log(res.data);
+  //   });
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -30,7 +30,7 @@ const Register = () => {
         // setEmail("");
         // setName("");
         // setPassword("");
-        fetchUser()
+        // fetchUser()
         navigate("/")
       })
       .catch((err)=>{

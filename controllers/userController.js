@@ -64,6 +64,7 @@ const userData = async (req, res) => {
   try {
     const user = await User.find();
     res.status(200).json(user);
+    console.log('USers',res);
   } catch (error) {
     res.status(500).json({ err: "Unable to get the users data" });
   }
@@ -73,16 +74,24 @@ const userData = async (req, res) => {
 const userDataById = async (req, res) => {
   try {
     const userId = req.params.id;
+    const validateSchema = Joi.object({
+      userId: Joi.string().required(),
+    });
+    const { error } = validateSchema.validate(req.params.id);
+    console.log(error);
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: "User not found" });
     }
 
     res.status(200).json(user);
   } catch (error) {
-    console.error('Error getting user data by ID:', error);
-    res.status(500).json({ error: 'Unable to get the user data' });
+    console.error("Error getting user data by ID:", error);
+    res.status(500).json({ error: "Unable to get the user data" });
   }
 };
 
@@ -98,7 +107,6 @@ const deleteUser = async (req, res) => {
 };
 
 // Update User Data
-
 const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -129,5 +137,5 @@ module.exports = {
   userData,
   deleteUser,
   updateUser,
-  userDataById
+  userDataById,
 };

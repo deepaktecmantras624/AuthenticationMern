@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
+// import axios from "axios";
 
 const Header = () => {
   const navigate = useNavigate();
 
+  const [data, setData] = useState([]);
   const [toggle, setToggle] = useState(false);
-  const isLogin = !!localStorage.getItem("token");
+  const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
 
-  const handleSignout = () => {
+
+  useEffect(() => {
+       setIsLogin(!!localStorage.getItem("token"));
+  }, []);
+
+  const handleSignout = (e) => {
+    
     localStorage.removeItem("token");
+    setIsLogin(false)
     navigate("/");
   };
   return (
@@ -34,8 +43,16 @@ const Header = () => {
           {isLogin ? (
             <>
               <li>
-                <Link to="/dashboard">Dashboard</Link>
+                <Link to="/">Dashboard</Link>
               </li>
+              {data &&
+                data.map((item) => {
+                  return (
+                    <>
+                      <p>{`Welcome ${item.name}`}</p>
+                    </>
+                  );
+                })}
               <li>
                 <button onClick={handleSignout}>SignOut</button>
               </li>

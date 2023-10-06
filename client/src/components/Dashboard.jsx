@@ -1,21 +1,28 @@
 import axios from "axios";
+// import axiosInstance from "./Axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // import EditForm from "./EditForm";
 
 const Dashboard = () => {
   const [data, setData] = useState([]);
- 
-
 
   // Getting the User data
   const fetchUser = () => {
+    const token=localStorage.getItem("token")
+    console.log(token)
+    
     axios
-      .get("http://localhost:3001/api/users/register")
+      .get("http://localhost:3001/api/users",{
+        headers:{
+          Authorization:`${token}`,
+        }
+      })
       .then((res) => {
+        console.log(res);
         if (res.status === 200) {
-          setData(res.data); // Set data in state
-        } else {
+          setData(res.data);
+          
           throw new Error("Failed to fetch data");
         }
       })
@@ -24,11 +31,15 @@ const Dashboard = () => {
       });
   };
 
-
   // Deleting the User
   const deleteUser = (id) => {
+    const token=localStorage.getItem("token")
     axios
-      .delete(`http://localhost:3001/api/users/${id}`)
+      .delete(`http://localhost:3001/api/users/${id}`,{
+        headers:{
+          Authorization:`${token}`,
+        }
+      })
       .then((res) => {
         if (res.data) {
           window.confirm("Are you sure to delete");
@@ -41,14 +52,9 @@ const Dashboard = () => {
       });
   };
 
-
-
-
   useEffect(() => {
     fetchUser();
   }, []);
-
-  
 
   return (
     <>
@@ -82,7 +88,10 @@ const Dashboard = () => {
                         <td className="text-right">{user.email}</td>
                         <td className="text-right">
                           <div className="gap-3">
-                            <Link to={`/update/${user._id}`} className="p-2 border mr-2 hover:rounded-lg bg-amber-400  text-black">
+                            <Link
+                              to={`/update/${user._id}`}
+                              className="p-2 border mr-2 hover:rounded-lg bg-amber-400  text-black"
+                            >
                               Edit
                             </Link>
 

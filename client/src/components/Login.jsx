@@ -7,15 +7,15 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    fetchUser()
-  },[])
+  // useEffect(()=>{
+  //   fetchUser()
+  // },[])
 
-  const fetchUser = () => {
-    axios.get("http://localhost:3001/api/users/register").then((res) => {
-      console.log(res.data);
-    });
-  };
+  // const fetchUser = () => {
+  //   axios.get("http://localhost:3001/api/users/register").then((res) => {
+  //     console.log(res.data);
+  //   });
+  // };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,17 +26,24 @@ const Login = () => {
       });
       
       const token = response.data.token
-      console.log(`Token:${token}`)
-      
-      alert("Login successful");
-      fetchUser()
-      navigate("/dashboard");
+      // console.log(`Token:${token}`)
+      // const loginId=response.data.token.userName
+      // console.log(loginId)
+      // console.log(token)
       localStorage.setItem("token", token);
+      // fetchUser(token)
+      alert("Login successful");
+      navigate("/");
+      // localStorage.setItem("loginId",loginId)
       
     } catch (error) {
       console.log("Login Error");
     }
   };
+
+  // const isLoggedIn=!!localStorage.getItem("token")
+
+  // {isLoggedIn && }
 
   return (
     <div
