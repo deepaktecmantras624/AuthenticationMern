@@ -1,44 +1,41 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+
 import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../redux/userSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch=useDispatch()
 
-  // useEffect(()=>{
-  //   fetchUser()
-  // },[])
 
-  // const fetchUser = () => {
-  //   axios.get("http://localhost:3001/api/users/register").then((res) => {
-  //     console.log(res.data);
-  //   });
-  // };
-
-  const handleLogin = async (e) => {
+  const handleLogin =  (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:3001/api/users/login", {
-        email,
-        password,
-      });
+     
+
+    dispatch(loginUser({email,password}))
+     
+
+    alert("Login Successful")
+    navigate("/")
+    // try {
+    //   const response = await axios.post("http://localhost:3001/api/users/login", {
+    //     email,
+    //     password,
+    //   });   
+    // const token = response.data.token
+    //   localStorage.setItem("token", token)
+    //   alert("Login successful");
+    //   navigate("/");
+    
       
-      const token = response.data.token
-      // console.log(`Token:${token}`)
-      // const loginId=response.data.token.userName
-      // console.log(loginId)
-      // console.log(token)
-      localStorage.setItem("token", token);
-      // fetchUser(token)
-      alert("Login successful");
-      navigate("/");
-      // localStorage.setItem("loginId",loginId)
-      
-    } catch (error) {
-      console.log("Login Error");
-    }
+    // } catch (error) {
+    //   console.log("Login Error");
+    // }
+
+    
   };
 
   // const isLoggedIn=!!localStorage.getItem("token")

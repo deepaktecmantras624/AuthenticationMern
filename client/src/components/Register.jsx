@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createUser } from "../redux/userSlice";
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 
@@ -9,33 +11,26 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate=useNavigate()
+  const dispatch=useDispatch()
 
-
-  // useEffect(() => {
-  //   fetchUser();
-  // }, []);
-
-  // const fetchUser = () => {
-  //   axios.get("http://localhost:3001/api/users").then((res) => {
-  //     console.log(res.data);
-  //   });
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    axios
-      .post("http://localhost:3001/api/users/register", { name, email, password })
-      .then(() => {
-        alert("Registration Successful")
-        // setEmail("");
-        // setName("");
-        // setPassword("");
-        // fetchUser()
-        navigate("/")
-      })
-      .catch((err)=>{
-        console.log("Unable to Register User")
-      })
+    
+    dispatch(createUser({name,email,password}))
+    
+    alert("Registration Successful")
+    navigate("/")
+    // axios
+    //   .post("http://localhost:3001/api/users/register", { name, email, password })
+    //   .then(() => {
+    //     alert("Registration Successful")
+       
+    //     navigate("/")
+    //   })
+    //   .catch((err)=>{
+    //     console.log("Unable to Register User")
+    //   })
   };
 
   return (
