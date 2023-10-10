@@ -1,59 +1,81 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+  showProduct,
+  showProductById,
+  updateProduct,
+} from "../redux/productSlice";
 
 const EditForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const product = useSelector((state) => state.app.product);
   const [values, setValues] = useState({
     id: id,
     name: "",
   });
 
   const handleSubmit = (e) => {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
     e.preventDefault();
-    axios
-      .put("http://localhost:3001/api/users/" + id, values, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      })
-      .then((res) => {
-        console.log("Update Successful");
-        navigate("/dashboard");
-      })
-      .catch((err) => console.log(err));
+    // axios
+    //   .put("http://localhost:3001/api/products/" + id, values, {
+    //     headers: {
+    //       Authorization: `${token}`,
+    //     },
+    //   })
+    //   .then((res) => {
+    //     console.log("Update Successful");
+    //     alert("Update Successful")
+    //     navigate("/");
+    //   })
+    //   .catch((err) => console.log(err));
+    dispatch(updateProduct({ id, values })).then(() => {
+      alert("Update successful");
+      navigate("/");
+      dispatch(showProduct(values));
+      console.log(values);
+    })
+    .catch((error)=>{
+      console.error("Update error:", error);
+    })
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    axios
-      .get("http://localhost:3001/api/users/" + id, {
-        headers: {
-          Authorization: `${token}`,
-        },
-      })
-      .then((res) => {
-        setValues({ ...values, name: res.data.name });
-      })
-      .catch((err) => console.log(err));
-  }, [id]);
+    dispatch(showProductById(id));
+    // console.log("Product by id:", dispatch(showProductById(id)));
+    // console.log("id:", id);
+    // setValues(id);
+    // dispatch(showProduct(values))
+  }, [id,dispatch]);
+
+  useEffect(() => {
+    if (product) {
+      setValues({
+        id: product.id,
+        name: product.title,
+      });
+    }
+  }, [product]);
 
   return (
     <>
       <div className="w-[30%] p-4 rounded-t-md ml-[30%] mt-[10%] border border-black justify-items-center bg-slate-300 h-fit">
-        <h1 className="text-3xl font-semibold justify-center">Update User</h1>
+        <h1 className="text-3xl font-semibold justify-center">
+          Update Product
+        </h1>
         <br />
         <form onSubmit={handleSubmit}>
-          <label text-gray-600>Name:</label>
+          <label text-gray-600>Title:</label>
 
           <input
             className="border border-gray-300 p-2 rounded-md w-full"
             type="text"
             onChange={(e) => setValues({ ...values, name: e.target.value })}
             value={values.name}
-            placeholder="Name"
+            placeholder="Title"
           />
           <br />
           <button

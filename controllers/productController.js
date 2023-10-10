@@ -48,12 +48,13 @@ const Joi = require("joi");
     //   return res.status(400).json({ error: error.message });
     // }
     const product = await Product.findById(productId);
+    console.log("productId:", product);
 
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
     }
 
-    res.status(200).json(user);
+    res.status(200).json(product);
   } catch (error) {
     console.error("Error getting product data by ID:", error);
     res.status(500).json({ error: "Unable to get the product data" });

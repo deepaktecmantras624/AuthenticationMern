@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
+import { useSelector } from "react-redux";
 // import axios from "axios";
 
 const Header = () => {
@@ -10,6 +11,8 @@ const Header = () => {
   const [data, setData] = useState([]);
   const [toggle, setToggle] = useState(false);
   const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
+  const {productssss}=useSelector((state)=>state.app.product)
+  console.log("what is this:", productssss)
 
 
   useEffect(() => {
@@ -45,11 +48,11 @@ const Header = () => {
               <li>
                 <Link to="/">Dashboard</Link>
               </li>
-              {data &&
-                data.map((item) => {
+              {productssss &&
+                productssss.map((item) => {
                   return (
                     <>
-                      <p>{`Welcome ${item.name}`}</p>
+                      <p>{`Welcome ${item.title}`}</p>
                     </>
                   );
                 })}
