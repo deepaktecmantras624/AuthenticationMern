@@ -1,11 +1,11 @@
-import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import React, { useState } from "react";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 // import Dashboard from "../components/Dashboard";
 // import Login from "../components/Login";
 // import Register from "../components/Register";
 // import EditForm from "../components/EditForm";
 // import { publicRoutes } from "./PathReference";
-import Dashboard from "../components/Dashboard";
+// import Dashboard from "../components/Dashboard";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import EditForm from "../components/EditForm";
@@ -15,7 +15,16 @@ import AdminDashboard from "../components/Admin/AdminDashboard";
 // import { useSelector } from "react-redux";
 
 const AllRoutes = () => {
-  const isLogin = localStorage.getItem("token");
+  const isLogin = !!localStorage.getItem("token");
+  // console.log("🚀 ~ file: AllRoutes.jsx:19 ~ AllRoutes ~ isLogin:", isLogin)
+  // const [auth , setAuth ] = useState(false);
+  // console.log("🚀 ~ file: AllRoutes.jsx:21 ~ AllRoutes ~ auth:", auth)
+  // const handleAuth = ()=> {
+  //   console.log('Logged in button ')
+  // setAuth(!auth)
+  
+  // }
+  // const navigate=useNavigate()
   return (
     <>
       <Routes>
@@ -24,6 +33,8 @@ const AllRoutes = () => {
         <Route path="/update/:id" element={<EditForm />} />
         <Route path="/register" element={<Register />} />
         <Route path="/addproduct" element={<AddAdminProduct />} />
+        {/* <Route path="/login" element={<Login />} /> */}
+        
       </Routes>
     </>
   );

@@ -11,18 +11,19 @@ const Header = () => {
   const [data, setData] = useState([]);
   const [toggle, setToggle] = useState(false);
   const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
-  const productssss=useSelector((state)=>state.app.product)
-  console.log("what is this:", productssss)
+  // const productssss=useSelector((state)=>state.app.product)
+  // console.log("what is this:", productssss)
 
 
   useEffect(() => {
        setIsLogin(isLogin);
-  }, []);
+  }, [isLogin]);
 
   const handleSignout = (e) => { 
+    e.preventDefault()
     localStorage.removeItem("token");
-    setIsLogin(false)
     navigate("/");
+    setIsLogin(false)
   };
   return (
     <div className="bg-[#2699fb] p-4">

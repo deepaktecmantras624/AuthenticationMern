@@ -98,7 +98,8 @@ export const userSlice = createSlice({
     },
     [loginUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.user=action.payload;
+      state.error = null;
     },
     [loginUser.rejected]: (state, action) => {
       state.loading = false;

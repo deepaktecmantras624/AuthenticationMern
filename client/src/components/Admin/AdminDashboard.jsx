@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct, showProduct } from "../../redux/productSlice";
 import { Link, useNavigate } from "react-router-dom";
+
 const AdminDashboard = () => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.app.product);
@@ -35,7 +36,9 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <div className="flex space-x-4 justify-evenly ml-7">
+      <div className="flex space-x-4 justify-evenly ml-7"
+    
+      >
         <div>
           <p className="text-5xl tracking-wide uppercase font-bold mx-center  text-red-400">
             Dashboard
