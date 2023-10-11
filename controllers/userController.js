@@ -11,13 +11,14 @@ const registerUser = async (req, res) => {
       name: Joi.string().required(),
       email: Joi.string().email().required(),
       password: Joi.string().required().min(4),
+     
     });
     const { error } = validateSchema.validate(req.body);
     console.log(error);
     if (error) {
       return res.status(400).json({ error: error.message });
     }
-    const { name, email, password } = req.body;
+    const { name, email, password, isAdmin } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();

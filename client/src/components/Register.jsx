@@ -35,8 +35,8 @@ const Register = () => {
 
   return (
     <div
-      className="border-solid rounded-md border-2 mt-7 bg-grey bg-slate-50"
-      style={{ width: "30%", marginLeft: "30%" }}
+      className="border-solid rounded-md border-2 mt-7 bg-white p-8 w-full sm:w-96 mx-auto shadow-lg"
+      // style={{ width: "30%", marginLeft: "30%" }}
     >
       <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
         Register
@@ -55,7 +55,7 @@ const Register = () => {
               placeholder="Enter your Name"
               name="name"
               onChange={(e) => setName(e.target.value)}
-              class="w-full"
+              class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
             />
           </div>
 
@@ -71,7 +71,7 @@ const Register = () => {
               placeholder="Enter your Email"
               name="email"
               onChange={(e) => setEmail(e.target.value)}
-              class="w-full"
+              class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
             />
           </div>
           <div>
@@ -86,7 +86,7 @@ const Register = () => {
               placeholder="Enter your password"
               name="password"
               onChange={(e) => setPassword(e.target.value)}
-              class="w-full"
+              class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
             />
           </div>
           <button

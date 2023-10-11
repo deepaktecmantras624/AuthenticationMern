@@ -1,66 +1,17 @@
-import axios from "axios";
-// import axiosInstance from "./Axios";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-// import EditForm from "./EditForm";
+import React from "react";
+import { useSelector } from "react-redux";
+
 
 const Dashboard = () => {
-  const [data, setData] = useState([]);
 
-  // Getting the User data
-  const fetchUser = () => {
-    const token=localStorage.getItem("token")
-    console.log(token)
-    
-    axios
-      .get("http://localhost:3001/api/users",{
-        headers:{
-          Authorization:`${token}`,
-        }
-      })
-      .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
-          setData(res.data);
-          
-          throw new Error("Failed to fetch data");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-      });
-  };
+  const product=useSelector((state)=>state.app.product)
 
-  // Deleting the User
-  const deleteUser = (id) => {
-    const token=localStorage.getItem("token")
-    axios
-      .delete(`http://localhost:3001/api/users/${id}`,{
-        headers:{
-          Authorization:`${token}`,
-        }
-      })
-      .then((res) => {
-        if (res.data) {
-          window.confirm("Are you sure to delete");
-        }
-        console.log(res.data);
-        fetchUser(data);
-      })
-      .catch((error) => {
-        console.error("Error in Deletion", error);
-      });
-  };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   return (
     <>
       <div>
         <p className="text-4xl font-bold mx-center ml-[45%] text-red-400">
-          Dashboard
+         User Dashboard
         </p>
       </div>
       <div className="w-[45%]  ml-[25%] mt-[2%] h-auto">
@@ -73,36 +24,20 @@ const Dashboard = () => {
               <thead>
                 <tr>
                   <th className="text-right">S.No.</th>
-                  <th className="text-right">Name</th>
-                  <th className="text-right">Email</th>
-                  <th className="text-right">Action</th>
+                  <th className="text-right">Title</th>
+                  <th className="text-right">Description</th>
+                  <th className="text-right">Price</th>
                 </tr>
               </thead>
               <tbody>
-                {data &&
-                  data.map((user, index) => {
+                {product &&
+                  product.map((item, index) => {
                     return (
                       <tr>
                         <td className="text-right">{index + 1}.</td>
-                        <td className="text-right">{user.name}</td>
-                        <td className="text-right">{user.email}</td>
-                        <td className="text-right">
-                          <div className="gap-3">
-                            <Link
-                              to={`/update/${user._id}`}
-                              className="p-2 border mr-2 hover:rounded-lg bg-amber-400  text-black"
-                            >
-                              Edit
-                            </Link>
-
-                            <button
-                              onClick={() => deleteUser(user._id)}
-                              className="border hover:rounded-lg bg-red-600 p-2 text-white"
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        </td>
+                        <td className="text-right">{item.title}</td>
+                        <td className="text-right">{item.description}</td>
+                        <td className="text-right">{item.price}</td>
                       </tr>
                     );
                   })}

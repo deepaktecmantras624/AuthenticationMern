@@ -11,7 +11,7 @@ const AddAdminProduct = () => {
     const [price, setPrice] = useState(0);
     const navigate=useNavigate()
     const dispatch=useDispatch()
-    const {product}=useSelector((state)=>state.app)
+    const product=useSelector((state)=>state.app.product)
   
     const handleSubmit = (e) => {
       e.preventDefault()
@@ -25,18 +25,18 @@ const AddAdminProduct = () => {
     };
   return (
     <div
-    className="border-solid rounded-md border-2 mt-7 bg-grey bg-slate-50"
-    style={{ width: "30%", marginLeft: "30%" }}
+    className="border-solid rounded-md border-2 mt-7 bg-white p-8 w-full sm:w-96 mx-auto shadow-lg"
+    // style={{ width: "30%", marginLeft: "30%" }}
   >
-    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
+    <h1 class="text-2xl font-bold mb-4 text-center text-gray-800">
       Add Product
     </h1>
-    <div  className="p-4">
+    <div  className="p-4 mx-auto">
       <form class="text-justify space-y-4 md:space-y-6" onSubmit={handleSubmit}>
         <div>
           <label
             for="name"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block text-sm font-medium text-gray-600"
           >
             Product Name
           </label>
@@ -45,14 +45,14 @@ const AddAdminProduct = () => {
             placeholder="Enter Product Title"
             name="title"
             onChange={(e) => setTitle(e.target.value)}
-            class="w-full"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
           />
         </div>
 
         <div>
           <label
             for="text"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block text-sm font-medium text-gray-600"
           >
             Product Description
           </label>
@@ -61,13 +61,13 @@ const AddAdminProduct = () => {
             placeholder="Enter Product Description"
             name="description"
             onChange={(e) => setDescription(e.target.value)}
-            class="w-full"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
           />
         </div>
         <div>
           <label
             for="price"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block text-sm font-medium text-gray-600"
           >
             Enter Product Price
           </label>
@@ -76,7 +76,7 @@ const AddAdminProduct = () => {
             placeholder="Enter Product Price"
             name="number"
             onChange={(e) => setPrice(e.target.value)}
-            class="w-full"
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
           />
         </div>
         <button

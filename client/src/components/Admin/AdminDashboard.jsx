@@ -4,15 +4,19 @@ import { deleteProduct, showProduct } from "../../redux/productSlice";
 import { Link, useNavigate } from "react-router-dom";
 const AdminDashboard = () => {
   const dispatch = useDispatch();
-  const { product, loading } = useSelector((state) => state.app);
-
+  const product = useSelector((state) => state.app.product);
+  const loading = useSelector((state) => state.app.loading);
+  console.log(
+    "🚀 ~ file: AdminDashboard.jsx:8 ~ AdminDashboard ~ product:",
+    product
+  );
 
   useEffect(() => {
     dispatch(showProduct());
-  }, []);
+  }, [dispatch]);
 
   if (loading) {
-    return <p className="text-2xl">...Loading</p>;
+    return <p className="text-4xl text-center">...Loading</p>;
   }
   console.log("Products is coming or not", product);
 
@@ -31,28 +35,30 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <div className="flex space-x-4 justify-evenly ml-7 border border-black">
+      <div className="flex space-x-4 justify-evenly ml-7">
         <div>
-          <p className="text-4xl  font-bold mx-center ml-[45%] text-red-400">
-            Admin Dashboard
+          <p className="text-5xl tracking-wide uppercase font-bold mx-center  text-red-400">
+            Dashboard
           </p>
         </div>
-        <div className="mt-5 ">
-          <Link
-            className="p-3 bg-[#2699fb] text-white hover:bg-teal-600 border border-spacing-1 border-black"
-            to="/addproduct"
-          >
-            Add Product
-          </Link>
-        </div>
+      </div>
+      <div className="mt-[45px] ml-[76%]">
+        <Link
+          className="p-3  bg-[#2699fb] text-white hover:bg-teal-600  border-spacing-1 border-black"
+          to="/addproduct"
+        >
+          Add Product
+        </Link>
       </div>
 
-      <div className="w-[45%]  ml-[25%] mt-[2%] h-auto">
-        <p className="text-2xl font-semibold">Product list</p>
+      <div className="w-4/5 mx-auto mt-8 overflow-x-auto md:overflow-hidden">
+        <p className="text-2xl font-bold from-stone-700 underline">
+          Product list
+        </p>
         <br />
 
         <div className="justify-center items-center h-screen">
-          <div className="bg-gray-200 p-8 rounded-lg">
+          <div className="bg-gray-100 p-8 rounded-lg">
             <table className="table-auto w-full md:table-fixed">
               <thead>
                 <tr>
@@ -66,7 +72,7 @@ const AdminDashboard = () => {
                 {product &&
                   product.map((p, index) => {
                     return (
-                      <tr>
+                      <tr key={p.index}>
                         <td className="text-right">{index + 1}.</td>
                         <td className="text-right">{p.title}</td>
                         <td className="text-right">{p.description}</td>

@@ -5,11 +5,11 @@ import axios from "axios";
 // Create Registration Action
 export const createUser = createAsyncThunk(
   "createUser",
-  async ({name, email,password}, { rejectWithValue }) => {
+  async ({name, email,password, isAdmin}, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         "http://localhost:3001/api/users/register",
-        {name,email,password}
+        {name,email,password, isAdmin}
         );
         console.log("CreateUser:Coming or not:",response.data);
       return response.data;

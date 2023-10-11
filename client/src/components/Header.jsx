@@ -11,16 +11,15 @@ const Header = () => {
   const [data, setData] = useState([]);
   const [toggle, setToggle] = useState(false);
   const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
-  const {productssss}=useSelector((state)=>state.app.product)
+  const productssss=useSelector((state)=>state.app.product)
   console.log("what is this:", productssss)
 
 
   useEffect(() => {
-       setIsLogin(!!localStorage.getItem("token"));
+       setIsLogin(isLogin);
   }, []);
 
-  const handleSignout = (e) => {
-    
+  const handleSignout = (e) => { 
     localStorage.removeItem("token");
     setIsLogin(false)
     navigate("/");
@@ -45,18 +44,18 @@ const Header = () => {
         <ul className="hidden md:flex text-white gap-5 ">
           {isLogin ? (
             <>
-              <li>
+              <li className="hover:bg-blue-500 hover:p-0.5 hover:text-white">
                 <Link to="/">Dashboard</Link>
               </li>
-              {productssss &&
+              {/* {productssss &&
                 productssss.map((item) => {
                   return (
                     <>
                       <p>{`Welcome ${item.title}`}</p>
                     </>
                   );
-                })}
-              <li>
+                })} */}
+              <li className="hover:bg-blue-500 hover:p-0.5 hover:text-white hover:underline">
                 <button onClick={handleSignout}>SignOut</button>
               </li>
             </>

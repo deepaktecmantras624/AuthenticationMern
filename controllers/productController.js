@@ -75,6 +75,15 @@ const Joi = require("joi");
 // Update User Data
  const updateProduct = async (req, res) => {
   try {
+
+    const validateSchema = Joi.object({
+      title: Joi.string(),
+    });
+    const { error } = validateSchema.validate(req.body);
+    console.log(error);
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
     const productId = req.params.id;
     const { title } = req.body;
     // const hashedP = await bcrypt.hash(password, 10);

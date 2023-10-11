@@ -7,10 +7,15 @@ export const createProduct = createAsyncThunk(
   "createProduct",
   async ({ title, description, price }, { rejectWithValue }) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.post("http://localhost:3001/api/products", {
         title,
         description,
         price,
+      },{
+        headers: {
+          Authorization: `${token}`,
+        },
       });
       return response.data;
     } catch (error) {
@@ -43,7 +48,7 @@ export const showProduct = createAsyncThunk(
 
 // read product by id
 export const showProductById = createAsyncThunk(
-  "showProduct",
+  "showProductById",
 
   async (id, { rejectWithValue }) => {
     try {
@@ -90,19 +95,20 @@ export const deleteProduct = createAsyncThunk(
 // Update Product Action
 export const updateProduct = createAsyncThunk(
   "updateProduct",
-  async ({ value, id }, { rejectWithValue }) => {
+  async ({id,values}, { rejectWithValue }) => {
     try {
+      console.log("🚀 ~ file: productSlice.js:100 ~ value:", values)
       console.log("update coming from productSlice!!");
       const token = localStorage.getItem("token");
       const response = await axios.put(
         `http://localhost:3001/api/products/${id}`,
-        value,
+        values,
         {
           headers: {
             Authorization: `${token}`,
           },
         }
-      );
+        );
 
       console.log("get from function:lasdjfjjs", response.data);
       return response.data;
@@ -118,6 +124,7 @@ export const productSlice = createSlice({
     product: [],
     loading: false,
     error: null,
+    singleId:[]
   },
 
   extraReducers: {
@@ -137,8 +144,10 @@ export const productSlice = createSlice({
       state.loading = true;
     },
     [showProductById.fulfilled]: (state, action) => {
+      console.log("🚀 ~ file: productSlice.js:136 ~ state:", JSON.parse(JSON.stringify(state)))
       state.loading = false;
-      state.product = action.payload;
+      state.singleId = action.payload;
+      console.log("🚀 ~ file: productSlice.js:139 ~ state.product:", JSON.parse(JSON.stringify(state)))
     },
     [showProductById.rejected]: (state, action) => {
       state.loading = false;
@@ -167,6 +176,8 @@ export const productSlice = createSlice({
         state.product = state.product.filter((e) => e.id !== id);
       }
       console.log("Delete Action:", action.payload);
+
+      
       // state.product=action.payload
     },
     [deleteProduct.rejected]: (state, action) => {
@@ -176,27 +187,13 @@ export const productSlice = createSlice({
     [updateProduct.pending]: (state) => {
       state.loading = true;
     },
-    [updateProduct.fulfilled]: (state, action) => {
-      console.log('Updated Product Payload:', action.payload);
-      state.loading = false;
-      // state.product = state.product.map((e) =>
-      //   e.id === action.payload.id ? action.payload : e
-      // );
-      
-      const updatedProduct111 = {...action.payload.product};
-      console.log("upp:",updatedProduct111);
-      // console.log("checking state:",state);
-
-      console.log('STATE',state.product)
-      
-      // state.product[updatedProduct111._id] = updatedProduct111;
-
-      // state.product
-      
-      // const {id, ...updatedProductData}=action.payload;
-      // state.product[id]=updatedProductData
-      
+    [updateProduct.fulfilled]:(state,action)=>{
+      state.loading=false;
+      console.log("🚀 ~ file: productSlice.js:179 ~ state.product=state.product.map ~ state.product:", state.product,action)
+      const afterProduct=JSON.parse(JSON.stringify(state.product))
+      console.log("🚀 ~ file: productSlice.js:184 ~ state.product=afterProduct.map ~ afterProduct:", afterProduct)
     },
+   
     [updateProduct.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;

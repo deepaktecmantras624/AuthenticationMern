@@ -1,14 +1,16 @@
-import {configureStore} from "@reduxjs/toolkit"
-import  productSlice  from "../redux/productSlice"
+import {combineReducers, configureStore} from "@reduxjs/toolkit"
+import  productSlice  from "./productSlice"
 import userSlice from "./userSlice"
 
 
+
+const rootReducer=combineReducers({
+    app:productSlice,
+    user:userSlice
+    
+})
 const store=configureStore({
-    reducer:{
-        app:productSlice,
-        user:userSlice
-        
-    }
+    reducer:rootReducer
 })
 
 export default store

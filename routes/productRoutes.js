@@ -1,13 +1,14 @@
 const express=require("express")
 const { addProduct, productData, deleteProduct, updateProduct, productDataById } = require("../controllers/productController")
+const authMiddleware = require("../middleware/authMiddleware")
 const router=express.Router()
 
 
 
-router.post("/",addProduct)
-router.get("/", productData)
-router.delete("/:id", deleteProduct)
-router.put("/:id", updateProduct)
-router.get("/:id", productDataById)
+router.post("/",authMiddleware,addProduct)
+router.get("/",authMiddleware, productData)
+router.delete("/:id",authMiddleware, deleteProduct)
+router.put("/:id",authMiddleware, updateProduct)
+router.get("/:id",authMiddleware, productDataById)
 
 module.exports=router
