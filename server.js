@@ -7,6 +7,9 @@ const bodyParser=require("body-parser")
 const userRoutes=require("./routes/userRoutes")
 const productRoutes=require("./routes/productRoutes")
 
+// ===============
+const generateUploadURL = require("./s3.js");
+// ==============
 const app=express()
 
 const mongo_url =
@@ -23,7 +26,14 @@ mongoose
   });
 
   app.use(bodyParser.json())
-  app.use(cors())
+  app.use(cors({ origin: "http://localhost:3000" }));
+
+  app.get("/s3Url", async (req, res) => {
+    const url = await generateUploadURL();
+    console.log(url);
+    res.send({ url });
+  });
+
 
   app.use("/api/users", userRoutes)
   app.use("/api/products", productRoutes)

@@ -7,6 +7,8 @@ const AdminDashboard = () => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.app.product);
   const loading = useSelector((state) => state.app.loading);
+
+  
   console.log(
     "🚀 ~ file: AdminDashboard.jsx:8 ~ AdminDashboard ~ product:",
     product
@@ -69,6 +71,7 @@ const AdminDashboard = () => {
                   <th className="text-right">Title</th>
                   <th className="text-right">Description</th>
                   <th className="text-right">Price</th>
+                  <th className="text-right">Image</th>
                 </tr>
               </thead>
               <tbody>
