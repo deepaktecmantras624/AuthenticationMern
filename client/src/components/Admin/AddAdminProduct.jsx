@@ -13,14 +13,18 @@ const AddAdminProduct = () => {
     const dispatch=useDispatch()
     const product=useSelector((state)=>state.app.product)
   
-    const handleSubmit = (e) => {
+    const handleSubmit =async (e) => {
       e.preventDefault()
       
-      dispatch(createProduct({title,description,price}))
+      await dispatch(createProduct({title,description,price}))
+      .then((response)=>{
+        console.log("Adding Product", response.error);
+        if(response.error === undefined){
+          alert("Product Added  Successful")
+          navigate("/")
+        }
+      })
       
-      console.log("Checking addAdmin Product",product);
-      alert("Product Added  Successful")
-      navigate("/")
       
     };
   return (

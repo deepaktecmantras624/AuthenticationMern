@@ -5,13 +5,18 @@ import axios from "axios";
 // Create Registration Action
 export const createUser = createAsyncThunk(
   "createUser",
-  async ({name, email,password, isAdmin}, { rejectWithValue }) => {
+  async ({ name, email, password, isAdmin }, { rejectWithValue }) => {
+
+    if(!name || !email || !password){
+      alert("Enter all the fields")
+      throw new Error("Enter all the fields")
+    }
     try {
       const response = await axios.post(
         "http://localhost:3001/api/users/register",
-        {name,email,password, isAdmin}
-        );
-        console.log("CreateUser:Coming or not:",response.data);
+        { name, email, password, isAdmin }
+      );
+      console.log("CreateUser:Coming or not:", response.data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -21,25 +26,33 @@ export const createUser = createAsyncThunk(
 
 // Login  Action
 export const loginUser = createAsyncThunk(
-  "showProduct",
-  async ({email,password}, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/api/users/login",
-        {email, password}
-      );
-
-      const token = response.data.token;
-      
-
-      localStorage.setItem("token", token);
-      console.log("Checking Token:",token);
-
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error);
+  "loginUser",
+  async ({ email, password }, { rejectWithValue }) => {
+    if (!email || !password) {
+       alert("Email and password are required");
+       throw new Error("Email and Password are required")
     }
-  }
+    
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/api/users/login",
+          { email, password }
+        );
+  
+        const token = response.data.token;
+  
+        localStorage.setItem("token", token);
+        console.log("Checking Token:", token);
+  
+        console.log("🚀 ~ file: userSlice.js:39 ~ response.data:", response.data);
+        return response.data;
+      } catch (error) {
+        console.log("🚀 ~ file: userSlice.js:41 ~ error:", error);
+        return rejectWithValue(error.response.data);
+      }
+    
+    }
+   
 );
 
 // Delete Product Action
@@ -87,7 +100,7 @@ export const userSlice = createSlice({
     },
     [createUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.user.push(action.payload)
+      state.user.push(action.payload);
     },
     [createUser.rejected]: (state, action) => {
       state.loading = false;
@@ -98,7 +111,7 @@ export const userSlice = createSlice({
     },
     [loginUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.user=action.payload;
+      state.user = action.payload;
       state.error = null;
     },
     [loginUser.rejected]: (state, action) => {

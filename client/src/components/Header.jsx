@@ -14,16 +14,15 @@ const Header = () => {
   // const productssss=useSelector((state)=>state.app.product)
   // console.log("what is this:", productssss)
 
-
   useEffect(() => {
-       setIsLogin(isLogin);
-  }, [isLogin]);
+    setIsLogin(!!localStorage.getItem("token"));
+  }, []);
 
-  const handleSignout = (e) => { 
-    e.preventDefault()
+  const handleSignout = async(e) => {
+    e.preventDefault();
     localStorage.removeItem("token");
+    setIsLogin(false);
     navigate("/");
-    setIsLogin(false)
   };
   return (
     <div className="bg-[#2699fb] p-4">

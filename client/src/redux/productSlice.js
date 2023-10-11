@@ -6,6 +6,10 @@ import axios from "axios";
 export const createProduct = createAsyncThunk(
   "createProduct",
   async ({ title, description, price }, { rejectWithValue }) => {
+    if(!title || !description || !price){
+      alert("Enter All Product Fields")
+      throw new Error("Enter All Product Fields")
+    }
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post("http://localhost:3001/api/products", {
@@ -96,6 +100,7 @@ export const deleteProduct = createAsyncThunk(
 export const updateProduct = createAsyncThunk(
   "updateProduct",
   async ({id,values}, { rejectWithValue }) => {
+    
     try {
       console.log("🚀 ~ file: productSlice.js:100 ~ value:", values)
       console.log("update coming from productSlice!!");

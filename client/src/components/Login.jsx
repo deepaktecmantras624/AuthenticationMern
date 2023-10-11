@@ -11,12 +11,37 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleLogin = () => {
-    // e.preventDefault();
-    dispatch(loginUser({ email, password }));
-    alert("Login Successful");
-    navigate("/");
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    await dispatch(loginUser({ email, password }))
+    .then((response) => {
+      // Handle the resolved promise here
+      console.log("Login Successful:", response.error);
+      if(response.error===undefined){
+        alert("Login Successful")
+        navigate("/");
+      }
+    })
+    .catch((error) => {
+      // Handle the rejected promise here
+      console.error("Login Failed:", error);
+      alert("Login Failed");
+    });
+
+    // // e.preventDefault();
+    // dispatch(loginUser({ email, password }))
+    // .then(() => {
+    //   // Handle success after the loginUser action is completed
+    //   alert("Login Successful");
+    //   navigate("/");
+    // })
+    // .catch((error) => {
+    //   // Handle errors if loginUser action fails
+    //   console.error("Login failed:", error);
+    // });
   };
+
+  
 
   return (
     <div

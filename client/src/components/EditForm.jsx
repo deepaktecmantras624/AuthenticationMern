@@ -12,21 +12,24 @@ const EditForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.app.product);
-  console.log("🚀 ~ file: EditForm.jsx:15 ~ EditForm ~ product:", product)
+  console.log("🚀 ~ file: EditForm.jsx:15 ~ EditForm ~ product:", product);
   const [values, setValues] = useState({
     id: id,
     title: "",
   });
   console.log("🚀 ~ file: EditForm.jsx:19 ~ EditForm ~ values:", values);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(updateProduct({ id, values}))
-      .then(() => {
-        alert("Update successful");
-        navigate("/");
-        dispatch(showProduct(values));
+    await dispatch(updateProduct({ id, values }))
+      .then((response) => {
+        if (response.error === undefined) {
+          alert("Update successful");
+          navigate("/");
+          dispatch(showProduct(values));
+        }
+
         // console.log(values);
       })
       .catch((error) => {

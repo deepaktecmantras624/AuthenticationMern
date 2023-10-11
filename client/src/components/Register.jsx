@@ -14,13 +14,23 @@ const Register = () => {
   const dispatch=useDispatch()
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault()
     
-    dispatch(createUser({name,email,password}))
+   await dispatch(createUser({name,email,password}))
+   .then((response)=>{
+    console.log("Register Successful:", response.error);
+    if(response.error===undefined){
+      alert("Registration Successfull")
+      navigate("/")
+
+    }
+   }).catch((error)=>{
+    console.error("Registration Failed:", error);
+      alert("registration Failed");
+   })
     
-    alert("Registration Successful")
-    navigate("/")
+   
     // axios
     //   .post("http://localhost:3001/api/users/register", { name, email, password })
     //   .then(() => {
