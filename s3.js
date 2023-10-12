@@ -23,8 +23,10 @@ const s3 = new aws.S3({
 });
 
 async function generateUploadURL() {
-  const rawBytes = await randomBytes(16);
-  const imageName = rawBytes.toString("hex");
+  // const rawBytes = await randomBytes(16);
+  const timestamp = new Date().getTime();
+  // const imageName = rawBytes.toString("hex");
+  const imageName = `image_${timestamp}`
 
   const params = {
     Bucket: bucketName,

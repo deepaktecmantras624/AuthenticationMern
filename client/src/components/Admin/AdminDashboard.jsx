@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct, showProduct } from "../../redux/productSlice";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,9 +6,24 @@ import { Link, useNavigate } from "react-router-dom";
 const AdminDashboard = () => {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.app.product);
-  const loading = useSelector((state) => state.app.loading);
-
+  console.log("🚀 ~ file: AdminDashboard.jsx:9 ~ AdminDashboard ~ product:", product)
+  // const images = product.map((img)=>({imgd:img?.imageUrl.split("?")[0]}))
+  // console.log("🚀 ~ file: AdminDashboard.jsx:11 ~ AdminDashboard ~ images:", images)
   
+  
+  const loading = useSelector((state) => state.app.loading);
+  // const [showImage,setShowImage]=useState("")
+
+
+  // const a=images.split("?")[0]
+  // setShowImage(a)
+  // const [check, setCheck] = useState([]);
+  // const kj = localStorage.getItem("imageURRl");
+  // console.log("🚀 ~ file: AdminDashboard.jsx:12 ~ AdminDashboard ~ kj:", kj)
+
+  // const imageUrl = kj.split("?")[0];
+  // setCheck(imageUrl);
+
   console.log(
     "🚀 ~ file: AdminDashboard.jsx:8 ~ AdminDashboard ~ product:",
     product
@@ -35,12 +50,15 @@ const AdminDashboard = () => {
         console.log("Error:", err);
       });
   };
+  
+
+  // const a = image.split('?')[0];
+  //       setShowImage(a)
+  //       console.log("ksdhfjkhsdjkh",showImage);
 
   return (
     <>
-      <div className="flex space-x-4 justify-evenly ml-7"
-    
-      >
+      <div className="flex space-x-4 justify-evenly ml-7">
         <div>
           <p className="text-5xl tracking-wide uppercase font-bold mx-center  text-red-400">
             Dashboard
@@ -72,6 +90,8 @@ const AdminDashboard = () => {
                   <th className="text-right">Description</th>
                   <th className="text-right">Price</th>
                   <th className="text-right">Image</th>
+
+                  <th className="text-right">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,6 +103,13 @@ const AdminDashboard = () => {
                         <td className="text-right">{p.title}</td>
                         <td className="text-right">{p.description}</td>
                         <td className="text-right">{p.price}</td>
+                        <td className="text-center">
+                          <div className="flex justify-center items-center h-full">
+
+                          <img className="w-12 h-10 object-cover" src={p.imageUrl} alt="Uploaded" />
+                          </div>
+                          </td>
+
                         <td className="text-right">
                           <div className="gap-3">
                             <Link

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -9,16 +9,30 @@ const AddAdminProduct = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [file, setFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+
+  //  console.log("🚀 ~ file: AddAdminProduct.jsx:13 ~ AddAdminProduct ~ imageUrl:", imageUrl)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.app.product);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleUpload();
-    dispatch(createProduct({ title, description, price }));
-    alert("Product Added  Successful");
-    navigate("/");
+    await handleUpload().then((imageUrl) => {
+      console.log(
+        "🚀 ~ file: AddAdminProduct.jsx:13 ~ AddAdminProduct ~aaaaaa:",
+        imageUrl
+      );
+      dispatch(createProduct({ title, description, price, imageUrl }));
+      console.log(
+        "🚀 ~ file: AddAdminProduct.jsx:21 ~ handleSubmit ~ title, description, price, image:",
+        title,
+        description,
+        price,
+        imageUrl
+      );
+      navigate("/");
+    });
   };
 
   const handleUpload = async () => {
@@ -27,19 +41,25 @@ const AddAdminProduct = () => {
         // get secure url from your server
         const response = await fetch("http://localhost:3001/s3Url");
         const { url } = await response.json();
-        console.log(url);
-        localStorage.setItem("upload",url)
+        console.log(
+          "🚀 ~ file: AddAdminProduct.jsx:39 ~ handleUpload ~ url:",
+          url
+        );
+
+        const previewImageUrl = URL.createObjectURL(file);
+        setPreviewImage(previewImageUrl);
 
         // post the image directly to the S3 bucketkhjkhjkhjkhk
         await fetch(url, {
           method: "PUT",
           body: file,
         });
-
         // const imageUrl = url.split('?')[0];
         // setImageUrl(imageUrl);
 
         // post request to your server to store any extra data
+        console.log("🚀 ~ file: AddAdminProduct.jsx:62 ~ handleUpload ~ url:", url.split("?")[0])
+        return url.split("?")[0];
       } catch (error) {
         console.error("Error uploading image: ", error);
       }
@@ -111,7 +131,18 @@ const AddAdminProduct = () => {
               className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
             />
             <label>Upload Image</label>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                handleFileChange(e);
+                setPreviewImage(URL.createObjectURL(e.target.files[0]));
+              }}
+            />
+
+            {previewImage && (
+              <img src={previewImage} alt="Selected" className="w-[50px]" />
+            )}
           </div>
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

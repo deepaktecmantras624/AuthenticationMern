@@ -5,7 +5,7 @@ import axios from "axios";
 // Create Product Action
 export const createProduct = createAsyncThunk(
   "createProduct",
-  async ({ title, description, price }, { rejectWithValue }) => {
+  async ({ title, description, price, imageUrl}, { rejectWithValue }) => {
     if(!title || !description || !price){
       alert("Enter All Product Fields")
       throw new Error("Enter All Product Fields")
@@ -16,6 +16,7 @@ export const createProduct = createAsyncThunk(
         title,
         description,
         price,
+        imageUrl
       },{
         headers: {
           Authorization: `${token}`,

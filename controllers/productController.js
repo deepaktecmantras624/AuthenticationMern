@@ -8,14 +8,16 @@ const Joi = require("joi");
       title: Joi.string().required(),
       description: Joi.string().required(),
       price: Joi.number().required(),
+      imageUrl:Joi.string()
     });
     const { error } = validateSchema.validate(req.body);
     console.log(error);
     if (error) {
       return res.status(400).json({ error: error.message });
     }
-    const { title, description, price } = req.body;
-    const newProduct = new Product({ title, description, price });
+    const { title, description, price, imageUrl } = req.body;
+    // console.log("🚀 ~ file: productController.js:18 ~ addProduct ~ imgurl:", imgurl)
+    const newProduct = new Product({ title, description, price, imageUrl });
     await newProduct.save();
     res.status(201).json({ message: "New Product Added" });
   } catch (error) {
