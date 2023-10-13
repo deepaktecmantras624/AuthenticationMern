@@ -26,7 +26,7 @@ async function generateUploadURL() {
   // const rawBytes = await randomBytes(16);
   const timestamp = new Date().getTime();
   // const imageName = rawBytes.toString("hex");
-  const imageName = `image_${timestamp}`
+  const imageName = `image_${timestamp}`;
 
   const params = {
     Bucket: bucketName,
@@ -37,5 +37,7 @@ async function generateUploadURL() {
   const uploadURL = await s3.getSignedUrlPromise("putObject", params);
   return uploadURL;
 }
+
+
 
 module.exports = generateUploadURL;

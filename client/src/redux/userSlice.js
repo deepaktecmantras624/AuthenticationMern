@@ -17,7 +17,7 @@ export const createUser = createAsyncThunk(
         { name, email, password, isAdmin }
       );
       console.log("CreateUser:Coming or not:", response.data);
-      return response.data;
+      return { name, email, password, isAdmin };
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -100,7 +100,7 @@ export const userSlice = createSlice({
     },
     [createUser.fulfilled]: (state, action) => {
       state.loading = false;
-      state.user.push(action.payload);
+      state.user = action.payload;
     },
     [createUser.rejected]: (state, action) => {
       state.loading = false;

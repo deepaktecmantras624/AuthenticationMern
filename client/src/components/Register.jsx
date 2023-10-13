@@ -10,38 +10,55 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate=useNavigate()
-  const dispatch=useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit =async (e) => {
-    e.preventDefault()
-    
-   await dispatch(createUser({name,email,password}))
-   .then((response)=>{
-    console.log("Register Successful:", response.error);
-    if(response.error===undefined){
-      alert("Registration Successfull")
-      navigate("/")
-
+    await dispatch(createUser({ name, email, password }))
+      .unwrap()
+      .then((response) => {
+        console.log("Register Successful:", response.error);
+        // if (response.error === undefined) {
+        //   alert("Registration Successfull");
+        //   navigate("/login");
+        // }
+        alert("Register Successful")
+        navigate("/login")
+      })
+      .catch((error) => {
+        console.error("Registration Failed:", error);
+        alert("registration Failed");
+      });
     }
-   }).catch((error)=>{
-    console.error("Registration Failed:", error);
-      alert("registration Failed");
-   })
+
+
+    // const handleSubmit = async (e) => {
+    //   e.preventDefault();
     
-   
+    //   try {
+    //     await dispatch(createUser({ name, email, password }));
+    //     alert("Registration Successful");
+    //     navigate("/login");
+    //   } catch (error) {
+    //     console.error("Registration Failed:", error.message);
+    //     alert(error.message); // Display the error message from the rejected promise
+    //   }
+    // };
+
+
     // axios
     //   .post("http://localhost:3001/api/users/register", { name, email, password })
     //   .then(() => {
     //     alert("Registration Successful")
-       
+
     //     navigate("/")
     //   })
     //   .catch((err)=>{
     //     console.log("Unable to Register User")
     //   })
-  };
+  // };
 
   return (
     <div
@@ -51,8 +68,11 @@ const Register = () => {
       <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
         Register
       </h1>
-      <div  className="p-4">
-        <form class="text-justify space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+      <div className="p-4">
+        <form
+          class="text-justify space-y-4 md:space-y-6"
+          onSubmit={handleSubmit}
+        >
           <div>
             <label
               for="name"
@@ -105,7 +125,15 @@ const Register = () => {
           >
             Register
           </button>
-          <p>If you're already a user <Link className="hover:bg-[blue] hover:text-[white] border p-3 bg-[grey.500] rounded-lg" to="/">Login</Link></p>
+          <p>
+            If you're already a user{" "}
+            <Link
+              className="hover:bg-[blue] hover:text-[white] border p-3 bg-[grey.500] rounded-lg"
+              to="/login"
+            >
+              Login
+            </Link>
+          </p>
         </form>
       </div>
     </div>

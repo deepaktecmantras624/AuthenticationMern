@@ -10,19 +10,21 @@ const Header = () => {
 
   const [data, setData] = useState([]);
   const [toggle, setToggle] = useState(false);
-  const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
+  // const [isLogin, setIsLogin] = useState(!!localStorage.getItem("token"));
   // const productssss=useSelector((state)=>state.app.product)
   // console.log("what is this:", productssss)
-
+  const isLogin=!!localStorage.getItem("token")
   useEffect(() => {
-    setIsLogin(!!localStorage.getItem("token"));
-  }, []);
+    if(!isLogin){
+      navigate("/login")
+    }
+  }, [isLogin]);
 
   const handleSignout = async(e) => {
     e.preventDefault();
     localStorage.removeItem("token");
-    setIsLogin(false);
-    navigate("/");
+    // setIsLogin(false);
+    navigate("/login");
   };
   return (
     <div className="bg-[#2699fb] p-4">
@@ -62,7 +64,7 @@ const Header = () => {
           ) : (
             <>
               <li>
-                <Link to="/">Login</Link>
+                <Link to="/login">Login</Link>
               </li>
               <li>
                 <Link to="/register">Register</Link>
@@ -80,7 +82,7 @@ const Header = () => {
           {isLogin ? (
             <>
               <li className="p-6">
-                <Link to="/dashboard">Dashboard</Link>
+                <Link to="/">Dashboard</Link>
               </li>
               <li className="p-6">
                 <button onClick={handleSignout}>SignOut</button>
@@ -89,7 +91,7 @@ const Header = () => {
           ) : (
             <>
               <li className="p-6">
-                <Link to="/">Login</Link>
+                <Link to="/login">Login</Link>
               </li>
               <li className="p-6">
                 <Link to="/register">Register</Link>
